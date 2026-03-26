@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        {% for art in articles %}
+            <h2>{{art.title}}</h2>
+            <img src="{{ art.img.url }}" alt="KOOOT">
+            <p>{{ art.data }}</p>
+            <p>{{art.description}}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
