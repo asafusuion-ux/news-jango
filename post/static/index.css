@@ -2,3 +2,21 @@ img{
     width: 700px;
     height: auto;
 }
+.menu ul{
+    display: flex;
+    justify-content: center;
+    box-shadow: 5px 2px 7px white;
+}
+.menu li{
+    font-size: x-large;
+    margin-left: 50px;
+    list-style-type: none;
+}
+.menu a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: red;
+}
+.menu a:hover{
+    color: black;
+}
