@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from post.models import Article
-from post.models import Category
+from django.shortcuts import render, get_object_or_404
+from post.models import Article, Category 
+
 
 def index(request):
     articles = Article.objects.all()
@@ -9,9 +9,11 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def category(request):
-    categories = Category.objects.all()
+
+
+def post_detail(request, slug):
+    article = get_object_or_404(Article, slug=slug)
     context = {
-        'categories':categories
+        'article':article
     }
-    return render(request, 'categories.html', context)
+    return render(request, 'post-detail.html', context)

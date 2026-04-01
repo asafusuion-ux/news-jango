@@ -1,26 +1,19 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="menu">
-        <ul>
-            <li> <a href="/"> Main </a> </li>
-            <li> <a href="/category/"> Categories </a> </li>
-        </ul>
-    </div>
-    <div class="container">
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
         {% for art in articles %}
-            <h2>{{art.title}}</h2>
-            <img src="{{ art.img.url }}" alt="KOOOT">
-            <p>{{ art.data }}</p>
-            <p>{{art.description}}</p>
+        <div class="col-lg-4">
+            <div class="card p-2">
+                <a href='{% url "post_detail" art.slug %}'>
+                    <img width="300px" class="img-thumbnail" src="{{art.img.url}}">
+                    <h2>{{art.title}}</h2>
+                    <p>{{art.description|truncatewords:12}}</p>
+                </a>
+            </div>
+        </div>
         {% endfor %}
-    </div>
-</body>
-</html>
+    </div> 
+</div>
+{% endblock content %}
