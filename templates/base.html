@@ -3,8 +3,13 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Новостной сайт</title>
@@ -13,32 +18,61 @@
 <body>
     <div class="menu">
         <ul>
-            <li> <a href="/"> Main </a> </li>
-            <li> <a href="/"> Categories </a> </li>
+            <li> <a href='/'> Main </a> </li>
+            {% for category in categories %}
+                
+                <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}} ({{category.articles.count}}) </a> </li>
+            {% endfor %}
+            <li class="dropdown">
+                <a href="#"> Рекомендации ▾ </a>
+                <div class="dropdown-menu">
+                    <h3>Рекомендуем</h3>
+                    <ul>
+                        <li><a href="#">Природа Кыргызстана</a></li>
+                        <li><a href="#">Исык-Куль</a></li>
+                        <li><a href="#">Отставка Ташиева</a></li>
+                        <li><a href="#">Побетилеи зимних горнолыжных игр в Караколе определены</a></li>
+                        <li><a href="#">Поголовье домашней птицы в Кыргызстане достигло 8,6 миллиона в 2025 году</a>
+                        </li>
+                        <li><a href="#">Разработка месторождения Тоголок: $2,3 миллиарда выручки и 600 рабочих мест</a>
+                        </li>
+                        <li><a href="#">Самат Эркинбеков стал главой Дирекции по неолимпийским видам спорта</a></li>
+
+                    </ul>
+                </div>
+            </li>
         </ul>
     </div>
 
     <!-- header -->
-    <div class="container">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <a href="/"
-                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
-                <span class="fs-4">Simple header</span>
-            </a>
 
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-                {% for category in categories %}
-                <li class="nav-item">
-                    <a href="#" class="nav-link">{{category.name}}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </header>
+    <!-- content start -->
+    <div class="banner">
+        {% for art in articles|slice:":2" %}
+        <div class="card">
+            <a href='{% url "post_detail" art.slug %}'>
+                {% if art.img %}<img src="{{art.img.url}}">{% endif %}
+                <h4>{{art.title}}</h4>
+            
+            </a>
+        </div>
+        {% endfor %}
     </div>
+
+    <div class="tbanner">
+        {% for art in articles|slice:"2:5" %}
+        <div class="cardik">
+            <a href='{% url "post_detail" art.slug %}'>
+                {% if art.img %}<img src="{{art.img.url}}">{% endif %}
+                <h5>{{art.title}}</h5>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    </div>
+    <!-- content end -->
     <!-- header -->
     {% block content %}
     {% endblock content %}
@@ -47,5 +81,17 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
+
+<footer>
+    <div class="footer-content">
+        <ul class="footer-links">
+            <li><a target="_blank" href="#">О нас</a></li>
+        </ul>
+        <p>Материалы, размещенные на сайте News.kg,строго предназначены только для ознакомления и персонального
+            пользования.  © 2026 - Поддержка Aura <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZDSPuGIYFBs7J4bXQexXd0lZ3SaJcXWIK7F_3eq-6m3dcduwMUO1gAgoMkuRki3XzYdnG&s=10">
+        </p>`
+    </div>
+</footer>
 
 </html>
