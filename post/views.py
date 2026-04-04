@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from post.models import Article, Category 
+from post.models import Article, Category, Hashtag
 from django.db.models import Count
 from django.core.paginator import Paginator
 
 def index(request):
     articles = Article.objects.all()
+
+    hashtags = Hashtag.objects.all()
 
     paginator = Paginator(articles, 3) # кол-во постов на страницу
     page_number = request.GET.get('page')
@@ -14,8 +16,9 @@ def index(request):
         articles_count=Count('articles')
     ).filter(articles_count__gt=0)[:6]
     context = {
-        'articles':page_obj,
-        'categories':categories
+        'page_obj':page_obj,
+        'categories':categories,
+        'hashtags':hashtags
     }
     return render(request, 'index.html', context)
 
@@ -46,7 +49,7 @@ def category_posts(request, slug):
     ).filter(articles_count__gt=0)[:6]
     context = {
         'category':category,
-        'articles':articles,
-        'categories':page_obj,
+        'page_obj':page_obj,
+        'categories':categories,
     }
     return render(request, 'category.html', context)

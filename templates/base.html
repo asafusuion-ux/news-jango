@@ -20,8 +20,9 @@
         <ul>
             <li> <a href='/'> Main </a> </li>
             {% for category in categories %}
-                
-                <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}} ({{category.articles.count}}) </a> </li>
+
+            <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}} ({{category.articles.count}})
+                </a> </li>
             {% endfor %}
             <li class="dropdown">
                 <a href="#"> Рекомендации ▾ </a>
@@ -45,26 +46,36 @@
     </div>
 
     <!-- header -->
+    <div class="container">
+        <div class="d-flex gap-2">
+            {% for tag in hashtags %}
 
+            <p style="color: white;">{{tag.name}}</p>
+
+
+            {% endfor %}
+        </div>
+
+    </div>
     <!-- content start -->
     <div class="banner">
-        {% for art in articles|slice:":2" %}
+        {% for page in page_obj|slice:":2" %}
         <div class="card">
-            <a href='{% url "post_detail" art.slug %}'>
-                {% if art.img %}<img src="{{art.img.url}}">{% endif %}
-                <h4>{{art.title}}</h4>
-            
+            <a href='{% url "post_detail" page.slug %}'>
+                {% if page.img %}<img src="{{page.img.url}}">{% endif %}
+                <h4>{{page.title}}</h4>
+
             </a>
         </div>
         {% endfor %}
     </div>
 
     <div class="tbanner">
-        {% for art in articles|slice:"2:5" %}
+        {% for page in page_obj|slice:"2:5" %}
         <div class="cardik">
-            <a href='{% url "post_detail" art.slug %}'>
-                {% if art.img %}<img src="{{art.img.url}}">{% endif %}
-                <h5>{{art.title}}</h5>
+            <a href='{% url "post_detail" page.slug %}'>
+                {% if page.img %}<img src="{{page.img.url}}">{% endif %}
+                <h5>{{page.title}}</h5>
             </a>
         </div>
         {% endfor %}
