@@ -49,10 +49,13 @@
     <div class="container">
         <div class="d-flex gap-2">
             {% for tag in hashtags %}
-
-            <p style="color: white;">{{tag.name}}</p>
-
-
+            <a href="{% url 'hashtag_category_posts' pk=tag.pk %}">
+                {{ hashtag.name }}
+                <p style="color: white;">
+                {{tag.name}}
+            </p>
+            </a>  
+            
             {% endfor %}
         </div>
 

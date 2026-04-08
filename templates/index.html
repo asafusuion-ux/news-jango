@@ -27,4 +27,36 @@
     </ul>
 </nav>
 <!-- paginator end -->
+<!-- calculator start -->
+<div class="container">
+    <form method="post">
+        <div class="d-flex gap-2">
+            {% csrf_token %}
+            <input type="number" placeholder="Введите сумму которую хотите обменять" name="a">
+            <select name="operation">
+                <option value="euro">euro</option>
+                <option value="tenge">tenge</option>
+                <option value="dollar">dollar</option>
+            </select>
+            <input type="submit" value="Submit">
+        </div>
+        {% if result %}
+        <h1> Результат конвертации : {{result}}</h1>
+        {% endif %}
+    </form>
+   <div class="flex-currency " style="background-color: black;">
+    <div style="flex: 1; text-align: left;">
+        <h3>dollar</h3>
+        <h3>euro</h3>
+        <h3>tenge</h3>
+    </div>
+    <div style="flex: 1; text-align: right; margin-left: 100px;">
+        <h3>87.2000</h3>
+        <h3>101.8000</h3>
+        <h3>0.1800</h3>
+    </div>
+</div>
+
+</div>
+<!-- calculator end -->
 {% endblock content %}

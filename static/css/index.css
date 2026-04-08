@@ -175,8 +175,7 @@ html, body, * {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif !important;
-    margin-top: 20px;
-    padding-top: 20px;
+    color: white;
 }
 
 
@@ -186,6 +185,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    color: white;
 }
 .container p {
     background-color: #333;
@@ -213,3 +213,11 @@ h1, h2, h3, h4, h5, h6 {
     color: black;
 }
 /* paginator end */
+button, input, optgroup, select, textarea {
+    width: 500px;
+}
+
+.flex-currency {
+    display: flex;
+    justify-content: left;
+}

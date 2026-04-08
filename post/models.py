@@ -30,7 +30,7 @@ class Article(models.Model):
     img = models.ImageField(blank=True, upload_to='images')
     data = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, null=True)
-    tag = models.ManyToManyField(Hashtag, blank=True, null=True,
+    tag = models.ManyToManyField(Hashtag, blank=True,
     related_name='hashtags', verbose_name='Хэштеги')
 
     def __str__(self):
