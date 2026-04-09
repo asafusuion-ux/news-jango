@@ -38,9 +38,28 @@
                         <li><a href="#">Разработка месторождения Тоголок: $2,3 миллиарда выручки и 600 рабочих мест</a>
                         </li>
                         <li><a href="#">Самат Эркинбеков стал главой Дирекции по неолимпийским видам спорта</a></li>
-
+                        <li></li>
                     </ul>
                 </div>
+            </li>
+            <li class="search-wrapper">
+                <a href="#">🔍 Поиск</a>
+                <form method="get" class="search-dropdown">
+                    {% if request.GET.search %}
+                    <p>Результат по запросу: {{ request.GET.search }}</p>
+                    {% for post in posts %}
+                    <div class="search">
+                        <a href="{% url 'post_detail' post.slug %}">
+                            <div>{{ post.title }}</div>
+                        </a>
+                    </div>
+                    {% empty %}
+                    <p>Ниче не нашел</p>
+                    {% endfor %}
+                    {% endif %}
+                    <input type="text" placeholder="Что ищете?" name="search">
+                    <input type="submit" value="Найти">
+                </form>
             </li>
         </ul>
     </div>
@@ -52,10 +71,10 @@
             <a href="{% url 'hashtag_category_posts' pk=tag.pk %}">
                 {{ hashtag.name }}
                 <p style="color: white;">
-                {{tag.name}}
-            </p>
-            </a>  
-            
+                    {{tag.name}}
+                </p>
+            </a>
+
             {% endfor %}
         </div>
 

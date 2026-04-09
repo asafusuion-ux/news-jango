@@ -16,6 +16,16 @@ def index(request):
         articles_count=Count('articles')
     ).filter(articles_count__gt=0)[:6]
 
+
+    # search start
+    query = request.GET.get('search', '')
+    if query:
+        posts = Article.objects.filter(title__icontains=query.lower())
+    else:
+        posts = Article.objects.none()
+    # search start
+
+    # calculator start
     result = None
     if request.method == 'POST':
         a = request.POST.get('a')
@@ -29,11 +39,14 @@ def index(request):
             result = str(round(int(a) / euro, 2))+ ' euro'
         if operation == 'tenge':
             result = str(round(int(a) / tenge, 2)) + ' tenge'
+    # calculator end
+
     context = {
         'page_obj':page_obj,
         'categories':categories,
         'hashtags':hashtags,
-        'result':result
+        'result':result,
+        'posts':posts
     }
 
     return render(request, 'index.html', context)
