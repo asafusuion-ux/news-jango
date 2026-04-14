@@ -7,6 +7,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('search/', views.search, name='search'),
     path('<slug:slug>/', views.post_detail, name='post_detail'),
     path('category/<slug:slug>/', views.category_posts, name='category_posts'),
     path('hashtag/<int:pk>/', views.hashtag_posts, name='hashtag_category_posts'),

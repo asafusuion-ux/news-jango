@@ -21,46 +21,30 @@
             <li> <a href='/'> Main </a> </li>
             {% for category in categories %}
 
-            <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}} ({{category.articles.count}})
+            <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}}
                 </a> </li>
             {% endfor %}
             <li class="dropdown">
                 <a href="#"> Рекомендации ▾ </a>
                 <div class="dropdown-menu">
-                    <h3>Рекомендуем</h3>
+                    <h3 style="color: black;">Рекомендуем</h3>
                     <ul>
-                        <li><a href="#">Природа Кыргызстана</a></li>
-                        <li><a href="#">Исык-Куль</a></li>
-                        <li><a href="#">Отставка Ташиева</a></li>
-                        <li><a href="#">Побетилеи зимних горнолыжных игр в Караколе определены</a></li>
-                        <li><a href="#">Поголовье домашней птицы в Кыргызстане достигло 8,6 миллиона в 2025 году</a>
+                        {% for article in articles|slice:":4" %}
+                        <li>
+                            <a href="{% url 'post_detail' article.slug %}">
+                                {{article.title|slice:":40"}}...
+                            </a>
                         </li>
-                        <li><a href="#">Разработка месторождения Тоголок: $2,3 миллиарда выручки и 600 рабочих мест</a>
-                        </li>
-                        <li><a href="#">Самат Эркинбеков стал главой Дирекции по неолимпийским видам спорта</a></li>
-                        <li></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </li>
-            <li class="search-wrapper">
-                <a href="#">🔍 Поиск</a>
-                <form method="get" class="search-dropdown">
-                    {% if request.GET.search %}
-                    <p>Результат по запросу: {{ request.GET.search }}</p>
-                    {% for post in posts %}
-                    <div class="search">
-                        <a href="{% url 'post_detail' post.slug %}">
-                            <div>{{ post.title }}</div>
-                        </a>
-                    </div>
-                    {% empty %}
-                    <p>Ниче не нашел</p>
-                    {% endfor %}
-                    {% endif %}
-                    <input type="text" placeholder="Что ищете?" name="search">
-                    <input type="submit" value="Найти">
-                </form>
-            </li>
+            <form role="search" method="get" action="{% url 'search' %}" style="display: flex; gap: 5px;">
+                <input type="search" class="form-control" placeholder="🔍 Поиск..." aria-label="Search" name="search"
+                    value="{{ request.GET.search }}"
+                    style="width: 220px; border-radius: 20px; padding: 5px 12px; border: 1px solid #ccc; margin-left: 100px;">
+                <button type="submit" style="display: none;"></button>
+            </form>
         </ul>
     </div>
 
