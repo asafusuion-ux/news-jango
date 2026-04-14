@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from post.models import Article, Category, Hashtag
+from django.shortcuts import render, get_object_or_404, redirect
+from post.models import Article, Category, Hashtag, Comments
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
 
@@ -25,6 +25,7 @@ def index(request):
         if operation == 'tenge':
             result = str(round(int(a) / tenge, 2)) + ' tenge'
     # calculator end
+    
 
     context = {
         'page_obj':page_obj,
@@ -63,11 +64,22 @@ def search(request):
 
 
 def post_detail(request, slug):
-
-    
     article = get_object_or_404(Article, slug=slug)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        text = request.POST.get('text')
+        if name and text:
+            Comments.objects.create(
+                article=article,
+                name=name,
+                text=text,
+            )
+            return redirect('post_detail', slug=slug)
+    comments = Comments.objects.all().order_by('-id')
     context = {
         'article':article,
+        'comments':comments,
     }
     return render(request, 'post-detail.html', context)
 
@@ -101,3 +113,4 @@ def hashtag_posts(request, pk):
         'page_obj': page_obj,
     }
     return render(request, 'category.html', context)
+

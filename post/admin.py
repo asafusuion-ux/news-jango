@@ -1,5 +1,6 @@
 from django.contrib import admin
-from post.models import Article, Category, Hashtag
+from post.models import Article, Category, Hashtag,Comments
+admin.site.register(Comments)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

@@ -220,3 +220,56 @@ button, input, optgroup, select, textarea {
     display: flex;
     justify-content: left;
 }
+.comments p {
+    background-color: transparent !important;
+    color: white !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-size: medium !important;
+    margin-top: 10px !important;
+}
+
+
+.article-content p {
+    background-color: transparent !important; 
+    color: white !important;            
+    padding: 0 !important;                
+    border-radius: 0 !important;          
+    box-shadow: none !important;      
+    text-align: left;                   
+    margin-bottom: 15px !important;     
+    font-size: 18px !important;
+    width: 100% !important;              
+}
+
+
+.comments {
+    text-align: left;                      
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.comments p {
+    background-color: rgba(255, 255, 255, 0.1) !important; 
+    color: white !important;
+    padding: 10px 15px !important;       
+    border-radius: 12px !important;
+    box-shadow: none !important;           
+    font-size: 16px !important;
+    width: fit-content !important;        
+    max-width: 100%;
+}
+
+.col-lg-4 h3 {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.comments strong, .comments small {
+    display: block;                      
+    margin-left: 5px;
+}
+.card .article-content p {
+    box-shadow: none !important;
+}

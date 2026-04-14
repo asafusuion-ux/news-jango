@@ -8,11 +8,34 @@
                 {% if article.img %}
                 <img class="img-fluid rounded mb-3" src="{{article.img.url}}">
                 {% endif %}
-                <p style="color: white;">{{article.title}}</p>
-                <p style="color: white;">{{article.description}}</p>
-                <p style="color: white;">{{article.data}}</p>
+                <p  style="color: white;">{{article.title}}</p>
+                <div class="article-content" style="color: white;">
+                    {{article.description|safe}}
+                </div>
+                <p>{{article.data}}</p>
             </div>
         </div>
+    </div>
+    <div class="col-lg-4">
+        <h3>Comments</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <input class="form-control" type="text" name="name" placeholder="Your name" required>
+            <br>
+            <textarea class="form-control" name="text" placeholder="Your comment" required></textarea>
+            <br>
+            <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+        <hr>
+        {% for comment in comments %}
+        <div class="comments">
+            <strong>{{comment.name}}</strong>
+            <small>{{comment.created_at}}</small>
+            <p>{{comment.text}}</p>
+        </div>
+        {% empty %}
+            <p>No comments</p>
+        {% endfor %}
     </div>
 </div>
 
