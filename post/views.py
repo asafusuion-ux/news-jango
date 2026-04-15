@@ -25,8 +25,6 @@ def index(request):
         if operation == 'tenge':
             result = str(round(int(a) / tenge, 2)) + ' tenge'
     # calculator end
-    
-
     context = {
         'page_obj':page_obj,
         'hashtags':hashtags,
@@ -114,3 +112,8 @@ def hashtag_posts(request, pk):
     }
     return render(request, 'category.html', context)
 
+def set_theme(request):
+    theme = request.POST.get('theme', 'light')
+    request.session['theme'] = theme
+    print("THEME:", theme, request.session.get('theme'))
+    return redirect(request.META.get('HTTP_REFERER', '/'))

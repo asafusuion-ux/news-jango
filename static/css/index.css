@@ -273,3 +273,32 @@ button, input, optgroup, select, textarea {
 .card .article-content p {
     box-shadow: none !important;
 }
+body.dark {
+    background: #000;
+    color: #fff;
+}
+.theme-switcher {
+    display: flex;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.theme-btn {
+    border: none;
+    background: transparent;
+    border-radius: 16px;
+    padding: 4px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.theme-btn.active {
+    background: rgba(255,255,255,0.3);
+}
+
+.theme-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
