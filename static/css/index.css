@@ -298,7 +298,6 @@ body.dark {
 .theme-btn.active {
     background: rgba(255,255,255,0.3);
 }
-
 .theme-btn:hover {
     background: rgba(255,255,255,0.2);
 }

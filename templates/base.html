@@ -54,6 +54,24 @@
                         value="light">☀️</button>
                 </div>
             </form>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">{{user.username}}</a>
+            </li>
+            <li class="nav-item" style="color: red;">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="width: 100px;">Exit</button>
+                </form>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Авторизация</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 

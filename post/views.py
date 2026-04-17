@@ -1,7 +1,54 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from post.models import Article, Category, Hashtag, Comments
 from django.db.models import Count, Q
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+
+
+
+@login_required
+def profile(request):
+    user = request.user
+    if request.method == 'POST':
+        user.username = request.POST.get('username')
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+    context ={
+        'user':user,
+    }
+    return render(request, 'profile.html', context)
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'form':form,
+    }
+    return render(request, 'change_password.html', context)
+               
+def register(request):
+    if request.method=='POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'register.html', context)
 
 def index(request):
     articles = Article.objects.all()
@@ -74,7 +121,7 @@ def post_detail(request, slug):
                 text=text,
             )
             return redirect('post_detail', slug=slug)
-    comments = Comments.objects.all().order_by('-id')
+    comments = Comments.objects.all().filter(article=article).order_by('-id')
     context = {
         'article':article,
         'comments':comments,
@@ -115,5 +162,4 @@ def hashtag_posts(request, pk):
 def set_theme(request):
     theme = request.POST.get('theme', 'light')
     request.session['theme'] = theme
-    print("THEME:", theme, request.session.get('theme'))
     return redirect(request.META.get('HTTP_REFERER', '/'))
