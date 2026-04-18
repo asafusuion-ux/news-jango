@@ -18,7 +18,6 @@
         <ul>
             <li> <a href='/'> Main </a> </li>
             {% for category in categories %}
-
             <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}}
                 </a> </li>
             {% endfor %}
@@ -37,26 +36,18 @@
                     </ul>
                 </div>
             </li>
+            <!-- search start -->
             <form role="search" method="get" action="{% url 'search' %}" style="display: flex; gap: 5px;">
                 <input type="search" class="form-control" placeholder="🔍 Поиск..." aria-label="Search" name="search"
                     value="{{ request.GET.search }}"
                     style="width: 220px; border-radius: 20px; padding: 5px 12px; border: 1px solid #ccc; margin-left: 100px;">
                 <button type="submit" style="display: none;"></button>
             </form>
-
-
-            <form method="post" action="{% url 'set_theme' %}" style="width: 100px;">
-                {% csrf_token %}
-                <div class="theme-switcher">
-                    <button class="theme-btn {% if request.session.theme == 'dark' %}active{% endif %}" name="theme"
-                        value="dark">🌙</button>
-                    <button class="theme-btn {% if request.session.theme != 'dark' %}active{% endif %}" name="theme"
-                        value="light">☀️</button>
-                </div>
-            </form>
+            <!-- search end -->
+             <!-- Login/out start -->
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="#">{{user.username}}</a>
+                <a class="nav-link" href="{% url 'profile' %}">{{user.username}}</a>
             </li>
             <li class="nav-item" style="color: red;">
                 <form action="{% url 'logout' %}" method="post">
@@ -72,6 +63,20 @@
                 <a class="nav-link" href="{% url 'login' %}">Авторизация</a>
             </li>
             {% endif %}
+             <!-- Login/out end -->
+            <!-- set theme start -->
+            <form method="post" action="{% url 'set_theme' %}" style="width: 100px; justify-content: right;">
+                {% csrf_token %}
+                <div class="theme-switcher">
+                    <button class="theme-btn {% if request.session.theme == 'dark' %}active{% endif %}" name="theme"
+                        value="dark">🌙</button>
+                    <button class="theme-btn {% if request.session.theme == 'light' %}active{% endif %}" name="theme"
+                        value="light">☀️</button>
+                    <button class="theme-btn {% if request.session.theme == 'medium' %}active{% endif %}" name="theme"
+                        value="medium">🎨</button>
+                </div>
+            </form>
+            <!-- set theme end -->
         </ul>
     </div>
 
@@ -93,7 +98,7 @@
     <!-- content start -->
     <div class="banner">
         {% for page in page_obj|slice:":2" %}
-        <div class="card">
+        <div class="card" style="margin-bottom: auto; border-radius: 60px;">
             <a href='{% url "post_detail" page.slug %}'>
                 {% if page.img %}<img src="{{page.img.url}}">{% endif %}
                 <h4>{{page.title}}</h4>

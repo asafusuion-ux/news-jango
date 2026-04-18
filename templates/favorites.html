@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 style="color: gold;">My favorites</h2>
+    <div class="row">
+        {% for fav in favorites %}
+        <div class="col-lg-3">
+                <div style="margin-bottom: 20px;">
+                    <a href="{% url 'post_detail' fav.article.slug %}">
+                        <img src="{{ fav.article.img.url }}" style="width: 320px; padding-right: 40px;">
+                        <h5 >{{ fav.article.title }}</h5>
+                    </a>
+                </div>
+        </div>
+        {% empty %}
+            <p>There are no favorite posts</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

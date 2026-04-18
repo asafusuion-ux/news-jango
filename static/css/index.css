@@ -220,17 +220,6 @@ button, input, optgroup, select, textarea {
     display: flex;
     justify-content: left;
 }
-.comments p {
-    background-color: transparent !important;
-    color: white !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    font-size: medium !important;
-    margin-top: 10px !important;
-}
-
-
 .article-content p {
     background-color: transparent !important; 
     color: white !important;            
@@ -242,7 +231,6 @@ button, input, optgroup, select, textarea {
     font-size: 18px !important;
     width: 100% !important;              
 }
-
 
 .comments {
     text-align: left;                      
@@ -273,9 +261,34 @@ button, input, optgroup, select, textarea {
 .card .article-content p {
     box-shadow: none !important;
 }
+
+/* theme start */
 body.dark {
-    background: #000;
-    color: #fff;
+    background: #1a1b1e;
+    color: #d4d4d0;
+}
+body.light {
+    background:#f5f5f0;
+    color:  #1a1a1a;
+}
+body.medium {
+    color: #e0e0e0;
+}
+body.light .menu a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #a90808;
+}
+body.dark .menu a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #ff0000;
+}
+body.light .menu li a:hover{
+    color: gold;
+}
+body.dark .menu  li a:hover{
+    color: gold;
 }
 .theme-switcher {
     display: flex;
@@ -300,4 +313,9 @@ body.dark {
 }
 .theme-btn:hover {
     background: rgba(255,255,255,0.2);
+}
+/* theme end */
+.article-content span {
+    background-color: transparent !important; 
+    color: white !important;            
 }

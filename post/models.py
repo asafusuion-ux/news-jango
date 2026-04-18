@@ -1,5 +1,7 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
+from django.contrib.auth.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='Category_Name', unique=True)
@@ -20,6 +22,12 @@ class Hashtag(models.Model):
     name = models.CharField(max_length=255)
     slug =  models.SlugField(unique=True, null=True)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+            verbose_name = 'Хэштег'
+            verbose_name_plural = "Хэштеги"
 class Article(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True,
@@ -43,7 +51,7 @@ class Article(models.Model):
     
 class Comments(models.Model):
     article = models.ForeignKey(
-        Article, on_delete=models.CASCADE, related_name='comments'
+        Article, on_delete=models.CASCADE, related_name='comments', null=True
     )
     name = models.CharField(max_length=100)
     text = models.TextField()
@@ -55,3 +63,15 @@ class Comments(models.Model):
     class Meta:
         verbose_name_plural = 'Комментарии'
         verbose_name = 'Комментарий'
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, related_name='favorites' 
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Избранные'
+        verbose_name = 'Избранное'
+        unique_together = ('user', 'article')

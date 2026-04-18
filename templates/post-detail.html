@@ -1,13 +1,32 @@
 {% extends 'base.html' %}
-{% block content %}s
+{% block content %}
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-12">
+            <span>{{article.created_at}}</span>
+            <h2>{{article.title}}</h2>
+            <!-- favorite start -->
+            {% if user.is_authenticated %}
+            <form action="{% url 'toggle_favorite' article.slug %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">
+                    {% if is_favorite %}
+                    Remove from favorites
+                    {% else %}
+                    Add to favorites
+                    {% endif %}
+                </button>
+            </form>
+            {%else%}
+            <p>Login, to add to favorites</p>
+            {% endif %}
+            <!-- favorite end -->
             <div class="card p-4 text-center">
                 {% if article.img %}
                 <img class="img-fluid rounded mb-3" src="{{article.img.url}}">
                 {% endif %}
-                <p  style="color: white;">{{article.title}}</p>
+                <p style="color: white;">{{article.title}}</p>
                 <div class="article-content" style="color: white;">
                     {{article.description|safe}}
                 </div>
@@ -15,6 +34,7 @@
             </div>
         </div>
     </div>
+    <!-- comments start -->
     <div class="col-lg-4">
         <h3>Comments</h3>
         <form method="POST">
@@ -33,9 +53,10 @@
             <p>{{comment.text}}</p>
         </div>
         {% empty %}
-            <p>No comments</p>
+        <p>No comments</p>
         {% endfor %}
     </div>
+    <!-- comments end -->
 </div>
 
 {% endblock content %}
