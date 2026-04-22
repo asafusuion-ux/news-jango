@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,21 +10,36 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новостной сайт</title>
+    <title>{% trans 'News' %}</title>
 </head>
 
 <body class="{{ request.session.theme|default:'light' }}">
     <div class="menu">
         <ul>
-            <li> <a href='/'> Main </a> </li>
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="ru">
+                <input type="hidden" name="text" value="{{request.path}}">
+                <button type="submit" style="width: 100px;"
+                    class="btn btn-sm {% if LANGUAGE_CODE == 'ru' %} btn-warning {% else %} btn-outline-warning {% endif %}">RU</button>
+            </form>
+
+            <form action="{% url 'set_language' %}" method="post" style="margin-left: 5px; margin-right: 5px;">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="en">
+                <input type="hidden" name="text" value="{{request.path}}">
+                <button type="submit" style="width: 100px;"
+                    class="btn btn-sm {% if LANGUAGE_CODE == 'en' %} btn-warning {% else %} btn-outline-warning {% endif %}">EN</button>
+            </form>
+            <li> <a href='/'> {% trans 'Main' %} </a> </li>
             {% for category in categories %}
             <li> <a href="{% url 'category_posts' category.slug %}"> {{category.name}}
                 </a> </li>
             {% endfor %}
             <li class="dropdown">
-                <a href="#"> Рекомендации ▾ </a>
+                <a href="#"> {% trans 'Recommendations' %} </a>
                 <div class="dropdown-menu">
-                    <h3 style="color: black;">Рекомендуем</h3>
+                    <h3 style="color: black;">Recommended</h3>
                     <ul>
                         {% for article in articles|slice:":4" %}
                         <li>
@@ -38,13 +53,13 @@
             </li>
             <!-- search start -->
             <form role="search" method="get" action="{% url 'search' %}" style="display: flex; gap: 5px;">
-                <input type="search" class="form-control" placeholder="🔍 Поиск..." aria-label="Search" name="search"
-                    value="{{ request.GET.search }}"
+                <input type="search" class="form-control" placeholder="{% trans '🔍 Searching...'%}" aria-label="Search"
+                    name="search" value="{{ request.GET.search }}"
                     style="width: 220px; border-radius: 20px; padding: 5px 12px; border: 1px solid #ccc; margin-left: 100px;">
                 <button type="submit" style="display: none;"></button>
             </form>
             <!-- search end -->
-             <!-- Login/out start -->
+            <!-- Login/out start -->
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profile' %}">{{user.username}}</a>
@@ -57,13 +72,13 @@
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+                <a class="nav-link" href="{% url 'register' %}">{% trans 'Register' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">Авторизация</a>
+                <a class="nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
             </li>
             {% endif %}
-             <!-- Login/out end -->
+            <!-- Login/out end -->
             <!-- set theme start -->
             <form method="post" action="{% url 'set_theme' %}" style="width: 100px; justify-content: right;">
                 {% csrf_token %}
@@ -102,7 +117,6 @@
             <a href='{% url "post_detail" page.slug %}'>
                 {% if page.img %}<img src="{{page.img.url}}">{% endif %}
                 <h4>{{page.title}}</h4>
-
             </a>
         </div>
         {% endfor %}
@@ -136,9 +150,9 @@
         <ul class="footer-links">
             <li><a target="_blank" href="#">О нас</a></li>
         </ul>
-        <p>Материалы, размещенные на сайте News.kg,строго предназначены только для ознакомления и персонального
-            пользования.  © 2026 - Поддержка Aura <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZDSPuGIYFBs7J4bXQexXd0lZ3SaJcXWIK7F_3eq-6m3dcduwMUO1gAgoMkuRki3XzYdnG&s=10">
+        <p>{% trans "Материалы строго предназначены для ознакомления" %}</p>
+        <p>{% trans "© 2026 - Поддержка Aura" %}</p><img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZDSPuGIYFBs7J4bXQexXd0lZ3SaJcXWIK7F_3eq-6m3dcduwMUO1gAgoMkuRki3XzYdnG&s=10">
         </p>`
     </div>
 </footer>

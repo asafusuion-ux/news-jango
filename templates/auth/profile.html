@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container-profile">
-    <h2>Profile</h2>
+    <h2>{% trans 'Profile' %}</h2>
     {% if user.is_authenticated %}
-        <a href="{% url 'favorites' %}" class="btn btn-warning">
-            Мои избранные
+        <a href="{% url 'favorites' %}" class="btn btn-warning" style="margin-bottom: 15px;">
+            {% trans 'My favorites' %}
         </a>
     {% endif%}
     <form method="post">
@@ -14,8 +14,8 @@
         <input type="text" class="form-control" name="first_name" value="{{user.first_name}}" placeholder="Name" style="width: 500px;"><br>
         <input type="text" class="form-control" name="last_name" value="{{user.last_name}}" placeholder="Surname "  style="width: 500px;"><br>
         <input type="email" class="form-control" name="email" value="{{user.username}}" placeholder="Email"   style="width: 500px;"><br>
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-primary" type="submit">{% trans 'Save' %}</button>
     </form>
-    <a class="btn btn-warning mb-3 mt-3" href="{% url 'change_password' %}">Change password</a><br>
+    <a class="btn btn-warning mb-3 mt-3" href="{% url 'change_password' %}">{% trans 'Change password' %}</a><br>
 </div>
 {% endblock content %}

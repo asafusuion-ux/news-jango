@@ -43,7 +43,7 @@ def profile(request):
     context ={
         'user':user,
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'auth/profile.html', context)
 
 @login_required
 def change_password(request):
@@ -58,7 +58,7 @@ def change_password(request):
     context = {
         'form':form,
     }
-    return render(request, 'change_password.html', context)
+    return render(request, 'auth/change_password.html', context)
                
 def register(request):
     if request.method=='POST':
@@ -71,7 +71,7 @@ def register(request):
     context = {
         'form':form,
     }
-    return render(request, 'register.html', context)
+    return render(request, 'auth/register.html', context)
 
 def index(request):
     articles = Article.objects.all()
@@ -80,25 +80,9 @@ def index(request):
     paginator = Paginator(articles, 3) # кол-во постов на страницу
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # calculator start
-    result = None
-    if request.method == 'POST':
-        a = request.POST.get('a')
-        dollar = 87.2000
-        euro = 101.8000
-        tenge = 0.1800
-        operation = request.POST.get('operation')
-        if operation == 'dollar':
-            result = str(round(int(a) / dollar, 2))+ ' dollar'
-        if operation == 'euro':
-            result = str(round(int(a) / euro, 2))+ ' euro'
-        if operation == 'tenge':
-            result = str(round(int(a) / tenge, 2)) + ' tenge'
-    # calculator end
     context = {
         'page_obj':page_obj,
         'hashtags':hashtags,
-        'result':result,
     }
 
     return render(request, 'index.html', context)
@@ -128,7 +112,7 @@ def search(request):
         'results':results,
         'query': query,
     }
-    return render(request, 'search.html', context)
+    return render(request, 'pages/search.html', context)
 
 
 def post_detail(request, slug):
@@ -153,7 +137,7 @@ def post_detail(request, slug):
         'comments':comments,
         'is_favorite':is_favorite
     }
-    return render(request, 'post-detail.html', context)
+    return render(request, 'pages/post-detail.html', context)
 
 
 
@@ -170,7 +154,7 @@ def category_posts(request, slug):
         'page_obj':page_obj,
 
     }
-    return render(request, 'category.html', context)
+    return render(request, 'pages/category.html', context)
 
 def hashtag_posts(request, pk):
     hashtag = get_object_or_404(Hashtag, pk=pk)
@@ -184,16 +168,13 @@ def hashtag_posts(request, pk):
         'hashtag': hashtag,
         'page_obj': page_obj,
     }
-    return render(request, 'category.html', context)
+    return render(request, 'pages/category.html', context)
 
 def set_theme(request):
     if request.method == 'POST':
         theme = request.POST.get('theme')
-        print(f">>> THEME: {theme}")  # посмотри в терминал
-        print(f">>> SESSION BEFORE: {request.session.get('theme')}")
         request.session['theme'] = theme
-        request.session.modified = True  # принудительно сохраняем сессию
-        print(f">>> SESSION AFTER: {request.session.get('theme')}")
+        request.session.modified = True  
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required
@@ -211,4 +192,4 @@ def toggle_favorite(request, slug):
 def favorite_list(request):
     favorites = Favorite.objects.filter(user=request.user)\
         .select_related('article').order_by('-created_at')
-    return render(request, 'favorites.html', {'favorites':favorites})
+    return render(request, 'pages/favorites.html', {'favorites':favorites})

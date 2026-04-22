@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container">
-    <h2 style="color: gold;">My favorites</h2>
+    <h2 style="color: gold;">{% trans 'My favorites' %}</h2>
     <div class="row">
         {% for fav in favorites %}
         <div class="col-lg-3">
@@ -14,7 +14,7 @@
                 </div>
         </div>
         {% empty %}
-            <p>There are no favorite posts</p>
+            <p>{% trans 'There are no favorite posts' %}</p>
         {% endfor %}
     </div>
 </div>
