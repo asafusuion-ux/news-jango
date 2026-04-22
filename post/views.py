@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from post.models import Article, Category, Hashtag, Comments, Favorite
+from post.models import Article, Category, Hashtag, Comments, Favorite, Likes
 from django.db.models import Count, Q
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -132,10 +132,14 @@ def post_detail(request, slug):
     is_favorite = False
     if request.user.is_authenticated:
         is_favorite = article.favorites.filter(user=request.user).exists()
+    is_like = False
+    if request.user.is_authenticated:
+        is_like = article.likes.filter(user=request.user).exists()
     context = {
         'article':article,
         'comments':comments,
-        'is_favorite':is_favorite
+        'is_favorite':is_favorite,
+        'is_like':is_like
     }
     return render(request, 'pages/post-detail.html', context)
 
@@ -177,6 +181,7 @@ def set_theme(request):
         request.session.modified = True  
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
+# favorite start
 @login_required
 def toggle_favorite(request, slug):
     article = get_object_or_404(Article, slug=slug)
@@ -193,3 +198,18 @@ def favorite_list(request):
     favorites = Favorite.objects.filter(user=request.user)\
         .select_related('article').order_by('-created_at')
     return render(request, 'pages/favorites.html', {'favorites':favorites})
+# favorite end
+
+# likes start
+@login_required
+def toggle_like(request, slug):
+    article = get_object_or_404(Article, slug=slug)
+    like, created = Likes.objects.get_or_create(
+        user=request.user,
+        article=article
+    )
+    if not created:
+        like.delete()
+    return redirect('post_detail', slug=slug)
+
+# likes end
