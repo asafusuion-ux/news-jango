@@ -118,6 +118,66 @@
                 {% if page.img %}<img src="{{page.img.url}}">{% endif %}
                 <h4>{{page.title}}</h4>
             </a>
+            <!-- likes start -->
+            <style>
+                .like-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 10px 20px;
+                    border-radius: 50px;
+                    border: 1.5px solid #E24B4A;
+                    background: transparent;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .like-btn:hover {
+                    background: #FCEBEB;
+                    transform: scale(1.04);
+                }
+
+                .like-btn:active {
+                    transform: scale(0.97);
+                }
+
+                .like-btn.liked {
+                    background: #FCEBEB;
+                }
+
+                .like-btn svg {
+                    transition: transform 0.3s cubic-bezier(.175, .885, .32, 1.275);
+                }
+
+                .like-btn:hover svg {
+                    transform: scale(1.2);
+                }
+
+                .like-count {
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: #A32D2D;
+                }
+            </style>
+            {% if user.is_authenticated %}
+            <form action="{% url 'toggle_like' page.slug %}" method="post" style="display: inline; text-align:center;">
+                {% csrf_token %}
+                <button type="submit" class="like-btn {% if is_like %}liked{% endif %}" style="width: 200px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24"
+                        fill="{% if is_like %}#E24B4A{% else %}none{% endif %}" stroke="#E24B4A" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="like-count">{{ page.likes.count }}</span>
+                </button>
+            </form>
+            {% else %}
+            <p style="font-size: 13px; color: gray;">
+                <a href="{% url 'login' %}" style="color: #E24B4A; font-weight: 500;">Войдите</a>, чтобы поставить лайк
+            </p>
+            {% endif %}
+            <!-- likes end -->
         </div>
         {% endfor %}
     </div>
@@ -129,6 +189,67 @@
                 {% if page.img %}<img src="{{page.img.url}}">{% endif %}
                 <h5>{{page.title}}</h5>
             </a>
+            <!-- likes start -->
+            <style>
+                .like-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 10px 20px;
+                    border-radius: 50px;
+                    border: 1.5px solid #E24B4A;
+                    background: transparent;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .like-btn:hover {
+                    background: #FCEBEB;
+                    transform: scale(1.04);
+                }
+
+                .like-btn:active {
+                    transform: scale(0.97);
+                }
+
+                .like-btn.liked {
+                    background: #FCEBEB;
+                }
+
+                .like-btn svg {
+                    transition: transform 0.3s cubic-bezier(.175, .885, .32, 1.275);
+                }
+
+                .like-btn:hover svg {
+                    transform: scale(1.2);
+                }
+
+                .like-count {
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: #A32D2D;
+                }
+            </style>
+            {% if user.is_authenticated %}
+            <form action="{% url 'toggle_like' page.slug %}" method="post" style="display: inline; text-align:center;">
+                {% csrf_token %}
+                <button type="submit" class="like-btn {% if is_like %}liked{% endif %}"
+                    style="width: 200px; margin-bottom: 14px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24"
+                        fill="{% if is_like %}#E24B4A{% else %}none{% endif %}" stroke="#E24B4A" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="like-count">{{ page.likes.count }}</span>
+                </button>
+            </form>
+            {% else %}
+            <p style="font-size: 13px; color: gray;">
+                <a href="{% url 'login' %}" style="color: #E24B4A; font-weight: 500;">Войдите</a>, чтобы поставить лайк
+            </p>
+            {% endif %}
+            <!-- likes end -->
         </div>
         {% endfor %}
     </div>
@@ -150,10 +271,10 @@
         <ul class="footer-links">
             <li><a target="_blank" href="#">О нас</a></li>
         </ul>
-        <p>{% trans "Материалы строго предназначены для ознакомления" %}</p>
-        <p>{% trans "© 2026 - Поддержка Aura" %}</p><img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZDSPuGIYFBs7J4bXQexXd0lZ3SaJcXWIK7F_3eq-6m3dcduwMUO1gAgoMkuRki3XzYdnG&s=10">
-        </p>`
+        <p style="margin-top: 20px;">{% trans "Материалы строго предназначены для ознакомления" %}</p>
+        <p>{% trans "© 2026 - Поддержка Aura" %}
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZDSPuGIYFBs7J4bXQexXd0lZ3SaJcXWIK7F_3eq-6m3dcduwMUO1gAgoMkuRki3XzYdnG&s=10" style="width: 200px; margin-left: 1250px;">
+        </p>
     </div>
 </footer>
 

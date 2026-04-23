@@ -74,7 +74,12 @@ def register(request):
     return render(request, 'auth/register.html', context)
 
 def index(request):
-    articles = Article.objects.all()
+    articles = Article.objects.annotate(
+        likes_count =Count('likes')
+    )
+    liked_ids = []
+    if request.user.is_authenticated:
+        liked_ids = Likes.objects.filter(user=request.user).values_list('article_id', flat=True)
     hashtags = Hashtag.objects.all()
 
     paginator = Paginator(articles, 3) # кол-во постов на страницу
@@ -83,6 +88,7 @@ def index(request):
     context = {
         'page_obj':page_obj,
         'hashtags':hashtags,
+        'liked_ids':liked_ids
     }
 
     return render(request, 'index.html', context)
@@ -210,6 +216,5 @@ def toggle_like(request, slug):
     )
     if not created:
         like.delete()
-    return redirect('post_detail', slug=slug)
-
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 # likes end

@@ -81,7 +81,7 @@ class Likes(models.Model):
     article = models.ForeignKey(
         Article, on_delete=models.CASCADE, related_name='likes', null=True
         )
-    
+    # created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
         verbose_name_plural = 'Лайки'
         verbose_name = 'Лайк'
